@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keda-sample-artemis
+spec:
+  selector:
+    matchLabels:
+      app: keda-sample-artemis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keda-sample-artemis
+    spec:
+      containers:
+      - name: keda-sample-artemis
+        image: vromero/activemq-artemis:2.9-latest
+        ports:
+        - containerPort: 5672
+        - containerPort: 61616
+        - containerPort: 8161
+        env:
+        - name: ARTEMIS_USERNAME
+          value: "admin01"
+        - name: ARTEMIS_PASSWORD
+          value: "admin01pw"
+        volumeMounts:
+        - name: artemis-config
+          mountPath: /var/lib/artemis/etc-override
+      volumes:
+      - name: artemis-config
+        configMap: 
+          name: artemis-config

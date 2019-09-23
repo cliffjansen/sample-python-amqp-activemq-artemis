@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: artemis01
+spec:
+  selector:
+    app: keda-sample-artemis
+  ports:
+    - name: amqp
+      protocol: TCP
+      port: 5672
+      targetPort: 5672
+    - name: https
+      protocol: TCP
+      port: 8161
+      targetPort: 8161
